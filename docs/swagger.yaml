@@ -1,0 +1,259 @@
+basePath: /
+definitions:
+  dto.AuthRequest:
+    properties:
+      email:
+        example: test@example.com
+        type: string
+      password:
+        example: Rahasia1!
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.PaginationMeta:
+    properties:
+      next_page:
+        type: string
+      page:
+        type: integer
+      prev_page:
+        type: string
+      total_page:
+        type: integer
+    type: object
+  dto.Response:
+    properties:
+      data:
+        items: {}
+        type: array
+      error:
+        type: string
+      meta:
+        $ref: '#/definitions/dto.PaginationMeta'
+      msg:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Social Media service for Final phase
+  title: Final phase
+  version: "1.0"
+paths:
+  /auth/:
+    post:
+      description: Login to get credential
+      parameters:
+      - description: user body
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Login
+      tags:
+      - auth
+  /auth/logout:
+    delete:
+      description: Post Logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - auth
+  /auth/register:
+    post:
+      description: Register to be user
+      parameters:
+      - description: user body
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Register
+      tags:
+      - auth
+  /profile/:
+    get:
+      description: Get Profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - BearerAuth: []
+      summary: Profile
+      tags:
+      - Profile
+    patch:
+      consumes:
+      - multipart/form-data
+      description: Patch Profile
+      parameters:
+      - description: data to edit profile
+        in: formData
+        name: first_name
+        type: string
+      - description: data to edit profile
+        in: formData
+        name: last_name
+        type: string
+      - description: data to edit profile
+        in: formData
+        name: phone_number
+        type: string
+      - description: data to edit profile
+        in: formData
+        name: avatar
+        type: file
+      - description: data to edit profile
+        in: formData
+        name: bio
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - BearerAuth: []
+      summary: Edit Profile
+      tags:
+      - Profile
+  /profile/user/{id}:
+    get:
+      description: Get Other Profile
+      parameters:
+      - description: id param
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - BearerAuth: []
+      summary: Other Profile
+      tags:
+      - Profile
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
