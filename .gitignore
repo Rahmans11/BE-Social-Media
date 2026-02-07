@@ -1,13 +1,6 @@
 .env
-.sql
-.png
-
+input.sql
 .air.toml 
 tmp
-
-sql
-
 public
-
-dockerfile
 kikey.pub
