@@ -20,6 +20,8 @@ func Init(app *gin.Engine, db *pgxpool.Pool, rdb *redis.Client) {
 
 	RegisterAuthRouter(app, db, rdb)
 	RegisterProfilesRouter(app, db, rdb)
+	RegisterPostsRouter(app, db, rdb)
+	RegisterFollowsRouter(app, db, rdb)
 
 	app.NoRoute(func(ctx *gin.Context) {
 		ctx.Redirect(http.StatusTemporaryRedirect, "/static/pages/not-found.html")

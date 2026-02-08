@@ -1,5 +1,13 @@
 basePath: /
 definitions:
+  dto.AddFollowed:
+    properties:
+      followed_id:
+        description: FollowerId int `json:"follower_id"`
+        type: integer
+    required:
+    - followed_id
+    type: object
   dto.AuthRequest:
     properties:
       email:
@@ -131,6 +139,86 @@ paths:
       summary: Register
       tags:
       - auth
+  /follows/add-followed:
+    post:
+      description: Create Follows
+      parameters:
+      - description: data to add follows
+        in: body
+        name: followed_id
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AddFollowed'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - BearerAuth: []
+      summary: Create Follows
+      tags:
+      - Follows
+  /post/:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create Post
+      parameters:
+      - description: data to create post
+        in: formData
+        name: caption
+        type: string
+      - description: data to create post
+        in: formData
+        name: image
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - BearerAuth: []
+      summary: Create Post
+      tags:
+      - Post
   /profile/:
     get:
       description: Get Profile

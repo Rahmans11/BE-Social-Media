@@ -1,5 +1,5 @@
 .env
-input.sql
+db
 .air.toml 
 tmp
 public
